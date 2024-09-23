@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>QR Code Scanner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://rawgit.com/cozmo/jsQR/master/dist/jsQR.js"></script>
+  </head>
+  <body>
+    <div class="scanner-container">
+      <video id="preview" width="640" height="480" autoplay></video>
+      <canvas id="canvas" style="display:none;"></canvas>
+      <form id="qr-form" onSubmit="return false;">
+        <input type="text" id="qr-result" placeholder="Scan a QR Code..." />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    
+    <script>
+      let scanner = null;
+      
+      $(document).ready(function() {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+            let preview = document.getElementById('preview');
+            preview.srcObject = stream;
+            
+            scanner = new jsQR(new QRCapture(preview));
+          });
+        } else {
+          console.log("Camera not available");
+        }
+      });
+      
+      $('#qr-form').submit((event) => {
+        event.preventDefault();  // Prevent form from submitting normally
+        
+        // You can handle the submission here
+      });
+    </script>
+  </body>
+</html>
