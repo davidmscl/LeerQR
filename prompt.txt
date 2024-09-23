@@ -1,9 +1,2 @@
 Crea una página web que permita a los usuarios, desde un dispositivo móvil, utilizar la cámara para escanear un código QR usando JavaScript. El contenido del código QR debe colocarse automáticamente en un campo de texto de un formulario, y tras esto, se debe disparar el evento de envío del formulario (submit). Asegúrate de incluir el manejo de permisos para la cámara, una interfaz simple y una implementación que funcione en la mayoría de navegadores móviles.
 
-
-,
-  "completionOptions": {
-     "stream":false
-    }
-
-    

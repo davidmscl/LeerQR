@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Code Scanner</title>
+    <script src="https://unpkg.com/@phaserjs/qrcode-reader@1.0.2/dist/index.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <video id="preview" width="300"></video>
+    <form onsubmit="event.preventDefault(); submitForm();">
+        <input type="text" id="result" placeholder="Scanned QR Code will appear here..." readonly>
+        <button type="submit">Submit</button>
+    </form>
+    
+    <script>
+        let scanner = new window.QrScanner(document.getElementById('preview'), result => {
+            document.getElementById('result').value = result;
+            submitForm(); // Submitting form as soon as QR code is scanned.
+        });
+        
+        function start() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                scanner.start().then(onNewDeviceConnected).catch(handleError);
+            } else {
+                handleNoGetUserMediaSupport();
+                sessionStorage.setItem('cameraId', null); // Clear camera id from session storage.
+            }
+        }
+        
+        function onNewDeviceConnected() {
+            if (confirm('Camera access has been granted by the browser. Re-scan?')) {
+                scanner.stop().then(onScannerStopped).catch(handleError);
+                sessionStorage.setItem('cameraId', null); // Clear camera id from session storage.
+            }
+        }
+        
+        function onScannerStopped() {
+            scanner.start().then(onNewDeviceConnected).catch(handleError);
+        }
+        
+        function handleNoGetUserMediaSupport() {
+            alert('getUserMedia not supported');
+        }
+        
+        window.addEventListener('load', start, false);
+
+        // Function to submit form
+        function submitForm(){
+          document.forms[0].submit(); 
+        }
+    </script>
+</body>
+</html>
