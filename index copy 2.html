@@ -35,13 +35,10 @@
         <label class="btn btn-secondary">
             <input type="radio" name="options" value="2" autocomplete="off"> Back Camera 1
         </label>
-        <label class="btn btn-secondary">
+    <label class="btn btn-secondary">
             <input type="radio" name="options" value="3" autocomplete="off"> Back Camera 2
         </label>
     </div>
-    <form id="contentForm" method="POST" action="your-server-endpoint">
-        <input type="text" id="contentField" name="contentField" hidden>
-    </form>
     <script type="text/javascript">
         var scanner = new Instascan.Scanner({
             video: document.getElementById('preview'),
@@ -50,12 +47,11 @@
         });
         scanner.addListener('scan', function (content) {
             alert(content);
-            document.getElementById('contentField').value = content; // Fill the text field
-            document.getElementById('contentForm').submit(); // Submit the form
+            //window.location.href=content;
         });
         Instascan.Camera.getCameras().then(function (cameras) {
             if (cameras.length > 0) {
-                alert('Camaras: '+ cameras.length);
+        alert('Camaras: '+ cameras.length);
                 scanner.start(cameras[0]);
                 $('[name="options"]').on('change', function () {
                     if ($(this).val() == 1) {
@@ -88,5 +84,4 @@
         });
     </script>
 </body>
-
 </html>
